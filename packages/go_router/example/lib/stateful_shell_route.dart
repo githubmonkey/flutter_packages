@@ -316,6 +316,26 @@ class DetailsScreenState extends State<DetailsScreen> {
               child: const Text('< Back',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
             ),
+          ],
+          ...<Widget>[
+            if (widget.label == 'A')
+              TextButton(
+                onPressed: () {
+                  // Part 1: This should reset the state of the current tab A
+                  // Unfortunately, this is ignored and only the second navigation to tab C is executed.
+                  GoRouter.of(context).replace('/a');
+                  // I also tried GoRouter.of(context).go('/a') and
+                  // StatefulNavigationShell.of(context).goBranch(0, initialLocation: true)
+                  // but with similar results
+                  // Using GoRouter.of(context).pop() does reset Tab A as
+                  // expected, but from there on Tab A is messed up and
+                  // navigation to A details does not longer work.
+
+                  // Part 2: After A has been reset, this should redirect to another tab
+                  GoRouter.of(context).go('/c');
+                },
+                child: const Text('reset to initial & go to C'),
+              ),
           ]
         ],
       ),
